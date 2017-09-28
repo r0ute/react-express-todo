@@ -38,7 +38,7 @@ module.exports = {
     },
     delete: function (req, res) {
         Todo.remove({_id: req.params.id})
-            .then((result, b) => {
+            .then((result) => {
                 if (!todoValidator.exists(req, res, result)) {
                     return;
                 }
