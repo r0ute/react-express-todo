@@ -17,7 +17,7 @@ export default class TodoApp extends Component {
     render() {
         return (
             <div className="App">
-                <TodoList todos={this.state.todos} />
+                <TodoList todos={this.state.todos}/>
             </div>
         );
     }
