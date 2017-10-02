@@ -18,9 +18,7 @@ before(function (done) {
 
 describe('GET /api/todos', function () {
     it('should get list of todos', function (done) {
-        const todo = {text: 'test'};
-
-        new Todo(todo).save()
+        new Todo({text: 'test'}).save()
             .then(function (todo) {
                 return request(app)
                     .get('/api/todos')
@@ -72,5 +70,37 @@ describe('POST /api/todos', function () {
             }).catch(function (err) {
             return done(err);
         });
+    })
+});
+
+describe('DELETE /api/todos', function () {
+    it('should not delete any todo item in case it does not exist', function (done) {
+        request(app)
+            .delete('/api/todos/' + mongoose.Types.ObjectId())
+            .expect(404)
+            .then(function (res) {
+                assert.ok(res.body.message);
+
+                done();
+            }).catch(function (err) {
+            return done(err);
+        })
+    });
+
+    it('should delete existing todo item', function (done) {
+        new Todo({text: 'test'}).save()
+            .then(function (todo) {
+                return request(app)
+                    .delete('/api/todos/' + todo._id)
+                    .expect(200)
+                    .then(function (res) {
+                        assert.ifError(res.message);
+
+                        return done();
+                    }).catch(function (err) {
+                        return done(err);
+                    });
+            });
+
     })
 });
