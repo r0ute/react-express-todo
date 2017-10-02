@@ -43,7 +43,7 @@ module.exports = {
                     return;
                 }
 
-                res.status(204).end();
+                res.json({});
             })
             .catch(err => handleServerError(res, err));
     }

@@ -40,13 +40,30 @@ export default class TodoApp extends Component {
 
             this.setState({todos: [...this.state.todos, res.data]});
         }).catch(err => console.log('Cannot add todo: ', err));
-    };
+    }
+
+    handleRemoveTodo = (todo) => {
+        fetch('/api/todos/' + todo._id, {
+            method: 'DELETE'
+        }).then(res => {
+            return res.json().then(data => ({
+                data: data,
+                ok: res.ok
+            }))
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error(res.data.message);
+            }
+
+            this.setState({todos: this.state.todos.filter(item => item._id !== todo._id)});
+        }).catch(err => console.log('Cannot remove todo: ', err));
+    }
 
     render() {
         return (
             <div className="App">
                 <AddTodo onTodoAdd={this.handleAddTodo}/>
-                <TodoList todos={this.state.todos}/>
+                <TodoList todos={this.state.todos} onTodoRemove={this.handleRemoveTodo}/>
             </div>
         );
     }
