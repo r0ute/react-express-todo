@@ -16,8 +16,8 @@ before(function (done) {
     });
 });
 
-describe('GET /api/todo', function () {
-    it("should get list of todos", function (done) {
+describe('GET /api/todos', function () {
+    it('should get list of todos', function (done) {
         const todo = {text: 'test'};
 
         new Todo(todo).save()
@@ -38,4 +38,39 @@ describe('GET /api/todo', function () {
                     });
             });
     });
+});
+
+describe('POST /api/todos', function () {
+    it('should create new todo item', function (done) {
+        const newTodo = {text: 'test'};
+
+        request(app)
+            .post('/api/todos')
+            .send(newTodo)
+            .expect(201)
+            .then(function (res) {
+                const todo = res.body;
+
+                assert.equal(todo.text, newTodo.text);
+                assert.equal(todo.completed, false);
+
+                return done();
+            }).catch(function (err) {
+            return done(err);
+        });
+    });
+
+    it('should not create any todo item due to empty text', function (done) {
+        request(app)
+            .post('/api/todos')
+            .send({completed: false})
+            .expect(400)
+            .then(function (res) {
+                assert.ok(res.body.message);
+
+                return done();
+            }).catch(function (err) {
+            return done(err);
+        });
+    })
 });
