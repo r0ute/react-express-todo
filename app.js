@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 var todos = require('./routes/todos');
+var config = require('./config');
 
 var app = express();
 
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/api/todos', todos);
 
-mongoose.connect('mongodb://localhost/todo', { useMongoClient: true });
+mongoose.connect('mongodb://' + config.db.host + '/' + config.db.database, {useMongoClient: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
