@@ -1,7 +1,7 @@
 import * as errors from './errors';
 import * as dataFetching from './dataFetching';
 
-export const FETCH_TODO_SUCCESS = 'FETCH_TODO_SUCCESS';
+export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
 export const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS';
 
 const TODOS_RESOURCE_PATH = '/api/todos';
@@ -28,7 +28,7 @@ export const fetchTodos = () => (dispatch) => {
     });
 };
 
-const fetchTodosSucess = (todos) => ({
-    type: FETCH_TODO_SUCCESS,
+export const fetchTodosSucess = (todos) => ({
+    type: FETCH_TODOS_SUCCESS,
     todos
 });

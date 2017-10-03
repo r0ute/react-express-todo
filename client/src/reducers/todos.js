@@ -1,12 +1,9 @@
 import * as actions from '../actions/todos';
 
-const todos = (state = {}, action) => {
-    switch (action) {
-        case actions.FETCH_TODO_SUCCESS:
-            return {
-                ...state,
-                todos: action.todos,
-            };
+const todos = (state = [], action) => {
+    switch (action.type) {
+        case actions.FETCH_TODOS_SUCCESS:
+            return action.todos;
         case actions.ADD_TODO_SUCCESS:
             return {
                 ...state,
