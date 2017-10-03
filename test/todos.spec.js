@@ -73,7 +73,46 @@ describe('POST /api/todos', function () {
     })
 });
 
-describe('DELETE /api/todos', function () {
+
+describe('PUT /api/todos/:id', function () {
+    it('should not update any todo item that does not exist in db', function (done) {
+        request(app)
+            .put('/api/todos/' + mongoose.Types.ObjectId())
+            .send({text: 'test'})
+            .expect(404)
+            .then(function (res) {
+                assert.ok(res.body.message);
+
+                return done();
+            }).catch(function (err) {
+            return done(err);
+        })
+
+    });
+
+    it('should update existing todo item', function (done) {
+        new Todo({text: 'test'}).save()
+            .then(function (todo) {
+                const newText = 'test2';
+
+                return request(app)
+                    .put('/api/todos/' + todo._id)
+                    .send({text: newText})
+                    .expect(200)
+                    .then(function (res) {
+                        assert.equal(res.body.text, newText);
+
+                        return done();
+                    }).catch(function (err) {
+                        return done(err);
+                    })
+            }).catch(function (err) {
+            return done(err);
+        })
+    });
+});
+
+describe('DELETE /api/todos/:id', function () {
     it('should not delete any todo item in case it does not exist', function (done) {
         request(app)
             .delete('/api/todos/' + mongoose.Types.ObjectId())
@@ -94,13 +133,12 @@ describe('DELETE /api/todos', function () {
                     .delete('/api/todos/' + todo._id)
                     .expect(200)
                     .then(function (res) {
-                        assert.ifError(res.message);
+                        assert.ifError(res.body.message);
 
                         return done();
                     }).catch(function (err) {
                         return done(err);
                     });
             });
-
     })
 });

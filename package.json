@@ -6,7 +6,7 @@
     "start": "concurrently \"npm run start-server\" \"npm run start-client\"",
     "start-server": "nodemon ./bin/www --ignore client/",
     "start-client": "cd client && npm start",
-    "test": "mocha --timeout 120000"
+    "test": "mocha"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
