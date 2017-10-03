@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import TodoList from './TodoList';
+import TodoListContainer from '../containers/TodoListContainer';
 import AddTodo from './AddTodo';
 
 export default class TodoApp extends Component {
@@ -8,19 +8,6 @@ export default class TodoApp extends Component {
         this.state = {
             todos: []
         };
-    }
-
-    componentDidMount() {
-        fetch('/api/todos').then(res => res.json().then(data => ({
-            data: data,
-            ok: res.ok
-        }))).then(res => {
-            if (!res.ok) {
-                throw new Error(res.data.message);
-            }
-
-            this.setState({todos: res.data});
-        }).catch(err => console.log('Cannot fetch todos: ', err));
     }
 
     handleTodoCreation = (todo) => {
@@ -94,7 +81,7 @@ export default class TodoApp extends Component {
         return (
             <div className="App">
                 <AddTodo onTodoAdd={this.handleTodoCreation}/>
-                <TodoList
+                <TodoListContainer
                     todos={this.state.todos}
                     onTodoRemoval={this.handleTodoRemoval}
                     onTodoChange={this.handleTodoModification}
