@@ -4,7 +4,7 @@ export default class RemoveTodo extends Component {
 
     handleRemoveTodoClick = (todo) => (event) => {
         event.preventDefault();
-        this.props.onTodoRemove(todo);
+        this.props.onTodoRemoval(todo);
     }
 
     render() {

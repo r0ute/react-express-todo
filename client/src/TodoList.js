@@ -1,9 +1,14 @@
 import React from 'react';
-import Todo from './Todo'
+import EditableTodo from './EditableTodo'
 
-const TodoList = ({todos, onTodoRemove}) => (
+const TodoList = ({todos, onTodoRemoval, onTodoChange}) => (
     <ul>
-        {todos.map(todo => <Todo key={todo._id} todo={todo} onTodoRemove={onTodoRemove}/>)}
+        {todos.map(todo => <EditableTodo
+            key={todo._id}
+            todo={todo}
+            onTodoRemoval={onTodoRemoval}
+            onTodoChange={onTodoChange}
+        />)}
     </ul>
 );
 

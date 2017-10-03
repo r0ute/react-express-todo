@@ -23,7 +23,7 @@ export default class TodoApp extends Component {
         }).catch(err => console.log('Cannot fetch todos: ', err));
     }
 
-    handleAddTodo = (todo) => {
+    handleTodoCreation = (todo) => {
         fetch('/api/todos', {
             headers: {
                 'Content-Type': 'application/json'
@@ -38,11 +38,13 @@ export default class TodoApp extends Component {
                 throw new Error(res.data.message)
             }
 
-            this.setState({todos: [...this.state.todos, res.data]});
+            this.setState(prevState => ({
+                todos: [...prevState.todos, res.data]
+            }));
         }).catch(err => console.log('Cannot add todo: ', err));
     }
 
-    handleRemoveTodo = (todo) => {
+    handleTodoRemoval = (todo) => {
         fetch('/api/todos/' + todo._id, {
             method: 'DELETE'
         }).then(res => {
@@ -55,15 +57,48 @@ export default class TodoApp extends Component {
                 throw new Error(res.data.message);
             }
 
-            this.setState({todos: this.state.todos.filter(item => item._id !== todo._id)});
+            this.setState(prevState => ({
+                todos: prevState.todos.filter(item => item._id !== todo._id)
+            }));
         }).catch(err => console.log('Cannot remove todo: ', err));
     }
+
+    handleTodoModification = (todo) => {
+        fetch('/api/todos/' + todo._id, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify(todo)
+        }).then(res => {
+            return res.json().then(data => ({
+                data: data,
+                ok: res.ok
+            }));
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error(res.data.message);
+            }
+
+            this.setState(prevState => ({
+                todos: prevState.todos.map(todo => {
+                    return (todo._id === res.data._id)
+                        ? res.data
+                        : todo;
+                })
+            }));
+        });
+    };
 
     render() {
         return (
             <div className="App">
-                <AddTodo onTodoAdd={this.handleAddTodo}/>
-                <TodoList todos={this.state.todos} onTodoRemove={this.handleRemoveTodo}/>
+                <AddTodo onTodoAdd={this.handleTodoCreation}/>
+                <TodoList
+                    todos={this.state.todos}
+                    onTodoRemoval={this.handleTodoRemoval}
+                    onTodoChange={this.handleTodoModification}
+                />
             </div>
         );
     }

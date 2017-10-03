@@ -1,11 +1,21 @@
-import React from 'react';
-import RemoveTodo from './RemoveTodo'
+import React, {Component} from 'react';
+import classnames from 'classnames';
+import './Todo.css';
 
-const Todo = ({todo, onTodoRemove}) => (
-    <li>
-        <RemoveTodo todo={todo} onTodoRemove={onTodoRemove}/>
-        {todo.text}
-    </li>
-);
+export default class Todo extends Component {
+    handleClick = (event) => {
+        event.preventDefault();
+        this.props.onTodoChange({
+            ...this.props.todo,
+            completed: !this.props.todo.completed
+        });
+    };
 
-export default Todo;
+    render() {
+        return (<span
+            onClick={this.handleClick}
+            className={classnames('Todo', {'Todo-completed': this.props.todo.completed})}>
+            {this.props.todo.text}
+            </span>);
+    }
+};
