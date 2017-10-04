@@ -2,10 +2,10 @@ import deepFreeze from 'deep-freeze';
 import * as actions from '../actions/todos';
 import todos from './todos';
 
-describe('FETCH_TODOS_SUCCESS', () => {
+describe('fetch todos', () => {
     it('should return an array of a single todo item', () => {
         const state = [];
-        const action = actions.fetchTodosSucess([{text: 'test'}]);
+        const action = actions.fetchTodosSuccess([{text: 'test'}]);
 
         deepFreeze(state);
         deepFreeze(action);
@@ -18,7 +18,7 @@ describe('FETCH_TODOS_SUCCESS', () => {
             {text: 'test1'},
             {text: 'test2'}
         ];
-        const action = actions.fetchTodosSucess(
+        const action = actions.fetchTodosSuccess(
             {text: 'test3'},
             {text: 'test4'},
             {text: 'test5'}

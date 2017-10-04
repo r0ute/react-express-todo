@@ -1,9 +1,9 @@
-import * as actions from '../actions/errors';
+import * as actions from '../actions/todos';
 
-const errors = (state = {}, action) => {
+const errors = (state = null, action) => {
     switch (action.type) {
-        case actions.ERROR_OCCURRED:
-            return {...state, errorMsg: action.error};
+        case actions.FETCH_TODOS_FAILURE:
+            return action.error;
         default:
             return state;
     }

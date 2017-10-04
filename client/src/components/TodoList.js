@@ -8,7 +8,11 @@ class TodoList extends Component {
     }
 
     render() {
-        const {todos, onTodoRemoval, onTodoChange} = this.props;
+        const {todos, loading, onTodoRemoval, onTodoChange} = this.props;
+
+        if (loading) {
+            return (<p>Loading...</p>);
+        }
 
         return (<ul>
             {todos.map(todo => <EditableTodo
@@ -24,6 +28,7 @@ class TodoList extends Component {
 
 TodoList.propTypes = {
     todos: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
     fetchTodos: PropTypes.func.isRequired
 };
 
