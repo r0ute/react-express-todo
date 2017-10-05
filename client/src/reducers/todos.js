@@ -5,13 +5,7 @@ const todos = (state = [], action) => {
         case types.FETCH_TODOS_SUCCESS:
             return action.todos;
         case types.ADD_TODO_SUCCESS:
-            return {
-                ...state,
-                todos: [
-                    ...state.todos,
-                    action.todo
-                ],
-            };
+            return [...state, action.todo];
         default:
             return state;
     }

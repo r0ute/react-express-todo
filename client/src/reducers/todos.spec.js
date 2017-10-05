@@ -30,3 +30,31 @@ describe('fetch todos', () => {
         expect(todos(state, action)).toEqual(action.todos);
     });
 });
+
+describe('add todo', () => {
+    it('should add new todo when state is empty', () => {
+        const state = [];
+        const action = actions.addTodoSuccess({
+            text: 'test'
+        });
+
+        deepFreeze(state);
+        deepFreeze(action);
+
+        expect(todos(state, action)).toEqual([action.todo]);
+    });
+
+    it('should add new todo when todo list is not empty', () => {
+        const state = [{
+            text: 'test 1'
+        }];
+        const action = actions.addTodoSuccess({
+            text: 'test 2'
+        });
+
+        deepFreeze(state);
+        deepFreeze(action);
+
+        expect(todos(state, action)).toEqual([...state, action.todo]);
+    });
+});

@@ -50,3 +50,25 @@ describe('fetch todos', () => {
         });
     });
 });
+
+describe('add todo', () => {
+    it('should trigger success event', () => {
+        const todo = {
+            type: 'text'
+        };
+
+        nock(resources.TODOS_PATH)
+            .post('')
+            .reply(201, todo);
+
+        const store = mockStore({});
+        const expectedActions = [
+            actions.addTodoRequest(),
+            actions.addTodoSuccess(todo)
+        ];
+
+        return store.dispatch(actions.addTodo(todo)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+});
