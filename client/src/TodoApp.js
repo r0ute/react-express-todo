@@ -63,13 +63,13 @@ export default class TodoApp extends Component {
         }).catch(err => console.log('Cannot remove todo: ', err));
     }
 
-    handleTodoModification = (todo) => {
+    handleTodoCompletion = (todo) => {
         fetch('/api/todos/' + todo._id, {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'PUT',
-            body: JSON.stringify(todo)
+            method: 'PATCH',
+            body: JSON.stringify({completed: todo.completed})
         }).then(res => {
             return res.json().then(data => ({
                 data: data,
@@ -97,7 +97,7 @@ export default class TodoApp extends Component {
                 <TodoList
                     todos={this.state.todos}
                     onTodoRemoval={this.handleTodoRemoval}
-                    onTodoChange={this.handleTodoModification}
+                    onTodoCompletion={this.handleTodoCompletion}
                 />
             </div>
         );

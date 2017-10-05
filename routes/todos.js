@@ -7,7 +7,7 @@ router.route('/')
     .post(todoController.create);
 
 router.route('/:id')
-    .put(todoController.update)
+    .patch(todoController.update)
     .delete(todoController.delete);
 
 module.exports = router;

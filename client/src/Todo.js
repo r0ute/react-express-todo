@@ -5,7 +5,7 @@ import './Todo.css';
 export default class Todo extends Component {
     handleClick = (event) => {
         event.preventDefault();
-        this.props.onTodoChange({
+        this.props.onTodoCompletion({
             ...this.props.todo,
             completed: !this.props.todo.completed
         });

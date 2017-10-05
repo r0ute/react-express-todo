@@ -2,7 +2,7 @@ import React from 'react';
 import RemoveTodo from './RemoveTodo';
 import Todo from './Todo';
 
-const EditableTodo = ({todo, onTodoRemoval, onTodoChange}) => (
+const EditableTodo = ({todo, onTodoRemoval, onTodoCompletion}) => (
     <li>
         <RemoveTodo
             todo={todo}
@@ -10,7 +10,7 @@ const EditableTodo = ({todo, onTodoRemoval, onTodoChange}) => (
         />
         <Todo
             todo={todo}
-            onTodoChange={onTodoChange}
+            onTodoCompletion={onTodoCompletion}
         />
     </li>
 );
