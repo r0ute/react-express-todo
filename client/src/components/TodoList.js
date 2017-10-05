@@ -8,14 +8,14 @@ class TodoList extends Component {
     }
 
     render() {
-        const {todos, loading, onTodoRemoval, onTodoChange} = this.props;
+        const {loading, onTodoRemoval, onTodoChange} = this.props;
 
         if (loading) {
             return (<p>Loading...</p>);
         }
 
         return (<ul>
-            {todos.map(todo => <EditableTodo
+            {this.props.todos.map(todo => <EditableTodo
                 key={todo._id}
                 todo={todo}
                 onTodoRemoval={onTodoRemoval}

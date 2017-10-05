@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import TodoListContainer from '../containers/TodoListContainer';
-import AddTodo from './AddTodo';
+import AddTodoContainer from '../containers/AddTodoContainer';
 
 export default class TodoApp extends Component {
     constructor(props) {
@@ -8,27 +8,6 @@ export default class TodoApp extends Component {
         this.state = {
             todos: []
         };
-    }
-
-    handleTodoCreation = (todo) => {
-        fetch('/api/todos', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({text: todo})
-        }).then(res => res.json().then(data => ({
-            data: data,
-            ok: res.ok
-        }))).then(res => {
-            if (!res.ok) {
-                throw new Error(res.data.message)
-            }
-
-            this.setState(prevState => ({
-                todos: [...prevState.todos, res.data]
-            }));
-        }).catch(err => console.log('Cannot add todo: ', err));
     }
 
     handleTodoRemoval = (todo) => {
@@ -79,10 +58,9 @@ export default class TodoApp extends Component {
 
     render() {
         return (
-            <div className="App">
-                <AddTodo onTodoAdd={this.handleTodoCreation}/>
+            <div>
+                <AddTodoContainer/>
                 <TodoListContainer
-                    todos={this.state.todos}
                     onTodoRemoval={this.handleTodoRemoval}
                     onTodoChange={this.handleTodoModification}
                 />

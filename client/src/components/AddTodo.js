@@ -1,6 +1,7 @@
 import React, {Component} from "react";
+import PropTypes from 'prop-types';
 
-export default class AddTodo extends Component {
+class AddTodo extends Component {
     handleInputTodo = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -14,8 +15,10 @@ export default class AddTodo extends Component {
     };
 
     addTodo = () => {
-        if (this.item.value) {
-            this.props.onTodoAdd(this.item.value);
+        const todo = this.item.value.trim();
+
+        if (todo) {
+            this.props.addTodo(todo);
         }
 
         this.item.value = '';
@@ -29,4 +32,10 @@ export default class AddTodo extends Component {
         </form>);
     }
 };
+
+AddTodo.propType = {
+    addTodo: PropTypes.func.isRequired
+};
+
+export default AddTodo;
 
