@@ -1,34 +1,32 @@
-const TODOS_RESOURCE_PATH = '/api/todos';
+import fetch from 'isomorphic-fetch';
+import * as resources from '../config/resources';
+import * as types from './types';
 
 /*
  * Fetch todos
  */
 
-export const FETCH_TODOS_REQUEST = 'FETCH_TODOS_REQUEST';
-export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
-export const FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE';
-
-const fetchTodosRequest = () => ({
-    type: FETCH_TODOS_REQUEST,
+export const fetchTodosRequest = () => ({
+    type: types.FETCH_TODOS_REQUEST,
     fetching: true
 });
 
 export const fetchTodosSuccess = (todos) => ({
-    type: FETCH_TODOS_SUCCESS,
+    type: types.FETCH_TODOS_SUCCESS,
     fetching: false,
     todos
 });
 
-const fetchTodosFailure = (error) => ({
-    type: FETCH_TODOS_FAILURE,
+export const fetchTodosFailure = (errorMsg) => ({
+    type: types.FETCH_TODOS_FAILURE,
     fetching: false,
-    error
+    errorMsg
 });
 
 export const fetchTodos = () => (dispatch) => {
     dispatch(fetchTodosRequest());
 
-    fetch(TODOS_RESOURCE_PATH).then(res =>
+    return fetch(resources.TODOS_PATH).then(res =>
         res.json().then(data => ({
             data: data,
             ok: res.ok
@@ -40,13 +38,11 @@ export const fetchTodos = () => (dispatch) => {
 
         dispatch(fetchTodosSuccess(res.data));
     }).catch(err => {
-        console.log('Cannot fetch todos: ', err);
-        dispatch(fetchTodosFailure(err));
+        console.error('Cannot fetch todos: ', err);
+        dispatch(fetchTodosFailure(err.message));
     });
 };
 
 /*
  * Add todo
  */
-
-export const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS';

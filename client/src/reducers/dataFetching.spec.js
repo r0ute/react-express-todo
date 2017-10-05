@@ -5,7 +5,7 @@ import dataFetching from './dataFetching';
 describe('fetch todos', () => {
     it('should be fetching data', () => {
         const state = false;
-        const action = actions.fetchTodos();
+        const action = actions.fetchTodosRequest();
 
         deepFreeze(state);
         deepFreeze(action);
@@ -14,7 +14,7 @@ describe('fetch todos', () => {
     });
 
     it('should not be fetching data', () => {
-        const state = false;
+        const state = true;
         const action = actions.fetchTodosSuccess([]);
 
         deepFreeze(state);

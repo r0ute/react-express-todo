@@ -1,10 +1,10 @@
-import * as actions from '../actions/todos';
+import * as types from '../actions/types';
 
 const todos = (state = [], action) => {
     switch (action.type) {
-        case actions.FETCH_TODOS_SUCCESS:
+        case types.FETCH_TODOS_SUCCESS:
             return action.todos;
-        case actions.ADD_TODO_SUCCESS:
+        case types.ADD_TODO_SUCCESS:
             return {
                 ...state,
                 todos: [
