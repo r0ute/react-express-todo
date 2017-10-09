@@ -74,10 +74,10 @@ describe('POST /api/todos', function () {
 });
 
 
-describe('PUT /api/todos/:id', function () {
+describe('PATCH /api/todos/:id', function () {
     it('should not update any todo item that does not exist in db', function (done) {
         request(app)
-            .put('/api/todos/' + mongoose.Types.ObjectId())
+            .patch('/api/todos/' + mongoose.Types.ObjectId())
             .send({text: 'test'})
             .expect(404)
             .then(function (res) {
@@ -91,16 +91,22 @@ describe('PUT /api/todos/:id', function () {
     });
 
     it('should update existing todo item', function (done) {
-        new Todo({text: 'test'}).save()
+        let newTodo = {
+            text: 'test',
+            completed: true
+        };
+
+        new Todo(newTodo).save()
             .then(function (todo) {
                 const newText = 'test2';
 
                 return request(app)
-                    .put('/api/todos/' + todo._id)
+                    .patch('/api/todos/' + todo._id)
                     .send({text: newText})
                     .expect(200)
                     .then(function (res) {
                         assert.equal(res.body.text, newText);
+                        assert.equal(res.body.completed, newTodo.completed);
 
                         return done();
                     }).catch(function (err) {

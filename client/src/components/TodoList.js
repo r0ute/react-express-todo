@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import RemoveTodo from './RemoveTodo';
+import Todo from './Todo';
 import PropTypes from 'prop-types';
-import EditableTodo from './EditableTodo'
 
 class TodoList extends Component {
     componentDidMount() {
@@ -8,20 +9,28 @@ class TodoList extends Component {
     }
 
     render() {
-        const {loading, onTodoRemoval, onTodoChange} = this.props;
+        const {loading, onTodoRemoval, onTodoCompletion} = this.props;
 
         if (loading) {
             return (<p>Loading...</p>);
         }
 
-        return (<ul>
-            {this.props.todos.map(todo => <EditableTodo
-                key={todo._id}
-                todo={todo}
-                onTodoRemoval={onTodoRemoval}
-                onTodoChange={onTodoChange}
-            />)}
-        </ul>);
+        return (
+            <ul>
+                {this.props.todos.map(todo =>
+                    <li key={todo._id}>
+                        <RemoveTodo
+                            todo={todo}
+                            onTodoRemoval={onTodoRemoval}
+                        />
+                        <Todo
+                            todo={todo}
+                            onTodoCompletion={onTodoCompletion}
+                        />
+                    </li>
+                )}
+            </ul>
+        );
     }
 }
 ;

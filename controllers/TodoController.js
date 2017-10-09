@@ -22,10 +22,6 @@ module.exports = {
             .catch(err => handleServerError(res, err));
     },
     update: function (req, res) {
-        if (!todoValidator.isValid(req, res)) {
-            return;
-        }
-
         Todo.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}).exec()
             .then(todo => {
                 if (!todoValidator.exists(req, res, todo)) {
