@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TodoListContainer from '../containers/TodoListContainer';
 import AddTodoContainer from '../containers/AddTodoContainer';
+import ErrorContainer from '../containers/ErrorContainer';
 
 export default class TodoApp extends Component {
     constructor(props) {
@@ -60,6 +61,7 @@ export default class TodoApp extends Component {
         return (
             <div>
                 <AddTodoContainer/>
+                <ErrorContainer/>
                 <TodoListContainer
                     onTodoRemoval={this.handleTodoRemoval}
                     onTodoCompletion={this.handleTodoCompletion}
