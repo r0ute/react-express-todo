@@ -19,7 +19,8 @@ describe('fetch todos', () => {
 
         nock(resources.TODOS_PATH)
             .get('')
-            .reply(200, todos);
+            .reply(200, todos)
+            .log(console.log);
 
         const store = mockStore({});
         const expectedActions = [
@@ -37,7 +38,8 @@ describe('fetch todos', () => {
 
         nock(resources.TODOS_PATH)
             .get('')
-            .reply(500, {message: errorMsg});
+            .reply(500, {message: errorMsg})
+            .log(console.log);
 
         const store = mockStore({});
         const expectedActions = [
@@ -54,21 +56,50 @@ describe('fetch todos', () => {
 describe('add todo', () => {
     it('should trigger success event', () => {
         const todo = {
-            type: 'text'
+            text: 'test'
+        };
+
+        const addedTodo = {
+            ...todo, _id: 1
         };
 
         nock(resources.TODOS_PATH)
-            .post('')
-            .reply(201, todo);
+            .post('', todo)
+            .reply(201, addedTodo)
+            .log(console.log);
 
         const store = mockStore({});
         const expectedActions = [
             actions.addTodoRequest(),
-            actions.addTodoSuccess(todo)
+            actions.addTodoSuccess(addedTodo)
         ];
 
-        return store.dispatch(actions.addTodo(todo)).then(() => {
+        return store.dispatch(actions.addTodo(todo.text)).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
+
+    it('should trigger failure event', () => {
+        const todo = {
+            text: ''
+        };
+
+        const errorMsg = 'Empty text.';
+
+        nock(resources.TODOS_PATH)
+            .post('', todo)
+            .reply(400, {message: errorMsg})
+            .log(console.log);
+
+        const store = mockStore({});
+        const expectedActions = [
+            actions.addTodoRequest(),
+            actions.addTodoFailure(errorMsg)
+        ];
+
+        return store.dispatch(actions.addTodo(todo.text)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+
 });
