@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import RemoveTodo from './RemoveTodo';
 import Todo from './Todo';
+import RemoveTodoContainer from '../containers/RemoveTodoContainer';
 import PropTypes from 'prop-types';
 
 class TodoList extends Component {
@@ -9,7 +9,7 @@ class TodoList extends Component {
     }
 
     render() {
-        const {loading, onTodoRemoval, onTodoCompletion} = this.props;
+        const {loading, onTodoCompletion} = this.props;
 
         if (loading) {
             return (<p>Loading...</p>);
@@ -19,10 +19,7 @@ class TodoList extends Component {
             <ul>
                 {this.props.todos.map(todo =>
                     <li key={todo._id}>
-                        <RemoveTodo
-                            todo={todo}
-                            onTodoRemoval={onTodoRemoval}
-                        />
+                        <RemoveTodoContainer todo={todo}/>
                         <Todo
                             todo={todo}
                             onTodoCompletion={onTodoCompletion}
