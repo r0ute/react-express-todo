@@ -96,3 +96,36 @@ describe('remove todo', () => {
     });
 
 });
+
+describe('toggle todo', () => {
+    it('should toggle completed todo', () => {
+        const todo = {
+            _id: 1,
+            text: 'test',
+            completed: true
+        };
+
+        const state = [todo];
+        const action = actions.toggleTodoSuccess(todo._id, false);
+
+        deepFreeze(state);
+        deepFreeze(action);
+
+        expect(todos(state, action)).toEqual([{...todo, completed: !todo.completed}]);
+    });
+    it('should toggle active todo', () => {
+        const todo = {
+            _id: 1,
+            text: 'test',
+            completed: false
+        };
+
+        const state = [todo];
+        const action = actions.toggleTodoSuccess(todo._id, true);
+
+        deepFreeze(state);
+        deepFreeze(action);
+
+        expect(todos(state, action)).toEqual([{...todo, completed: !todo.completed}]);
+    });
+});

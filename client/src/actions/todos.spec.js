@@ -146,3 +146,49 @@ describe('remove todo', () => {
     });
 
 });
+
+describe('toggle todo', () => {
+    it('should trigger success event', () => {
+        const todo = {
+            _id: 1,
+            text: 'test',
+            completed: false
+        }
+
+        nock(resources.TODOS_PATH)
+            .patch(`/${todo._id}`)
+            .reply(200, {...todo, completed: !todo.completed})
+            .log(console.log);
+
+        const store = mockStore({});
+        const expectedActions = [
+            actions.toggleTodoRequest(),
+            actions.toggleTodoSuccess(todo._id, !todo.completed)
+        ];
+
+        return store.dispatch(actions.toggleTodo(todo._id, todo.completed)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+
+    it('should trigger failure event', () => {
+        const todoId = 1;
+        const errorMsg = 'Not found.';
+
+        nock(resources.TODOS_PATH)
+            .patch(`/${todoId}`)
+            .reply(404, {message: errorMsg})
+            .log(console.log);
+
+        const store = mockStore({});
+        const expectedActions = [
+            actions.toggleTodoRequest(),
+            actions.toggleTodoFailure(errorMsg)
+        ];
+
+        return store.dispatch(actions.toggleTodo(todoId, false)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+
+});

@@ -125,3 +125,49 @@ export const removeTodo = (id) => (dispatch) => {
     });
 
 };
+
+/*
+ * Toggle todo
+ */
+
+export const toggleTodoRequest = () => ({
+    type: types.TOGGLE_TODO_REQUEST
+});
+
+export const toggleTodoSuccess = (id, completed) => ({
+    type: types.TOGGLE_TODO_SUCCESS,
+    id,
+    completed
+});
+
+export const toggleTodoFailure = (errorMsg) => ({
+    type: types.TOGGLE_TODO_FAILURE,
+    errorMsg
+});
+
+export const toggleTodo = (id, completed) => (dispatch) => {
+    dispatch(toggleTodoRequest());
+
+    return fetch(`${resources.TODOS_PATH}/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PATCH',
+        body: JSON.stringify({completed: completed})
+    }).then(res => {
+        return res.json().then(data => ({
+            data: data,
+            ok: res.ok
+        }));
+    }).then(res => {
+        if (!res.ok) {
+            throw new Error(res.data.message);
+        }
+
+        return dispatch(toggleTodoSuccess(res.data._id, res.data.completed));
+    }).catch(err => {
+        console.error('Cannot toggle todo: ', err);
+
+        return dispatch(toggleTodoFailure(err.message))
+    });
+};
