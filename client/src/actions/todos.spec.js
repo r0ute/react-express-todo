@@ -103,3 +103,46 @@ describe('add todo', () => {
     });
 
 });
+
+
+describe('remove todo', () => {
+    it('should trigger success event', () => {
+        const todoToRemoveId = 1;
+
+        nock(resources.TODOS_PATH)
+            .delete(`/${todoToRemoveId}`)
+            .reply(200, {})
+            .log(console.log);
+
+        const store = mockStore({});
+        const expectedActions = [
+            actions.removeTodoRequest(),
+            actions.removeTodoSuccess(todoToRemoveId)
+        ];
+
+        return store.dispatch(actions.removeTodo(todoToRemoveId)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+
+    it('should trigger failure event', () => {
+        const todoToRemoveId = 1;
+        const errorMsg = 'Not found.';
+
+        nock(resources.TODOS_PATH)
+            .delete(`/${todoToRemoveId}`)
+            .reply(404, {message: errorMsg})
+            .log(console.log);
+
+        const store = mockStore({});
+        const expectedActions = [
+            actions.removeTodoRequest(),
+            actions.removeTodoFailure(errorMsg)
+        ];
+
+        return store.dispatch(actions.removeTodo(todoToRemoveId)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+
+});

@@ -36,10 +36,11 @@ export const fetchTodos = () => (dispatch) => {
             throw new Error(res.data.message);
         }
 
-        dispatch(fetchTodosSuccess(res.data));
+        return dispatch(fetchTodosSuccess(res.data));
     }).catch(err => {
         console.error('Cannot fetch todos: ', err);
-        dispatch(fetchTodosFailure(err.message));
+
+        return dispatch(fetchTodosFailure(err.message));
     });
 };
 
@@ -61,7 +62,7 @@ export const addTodoFailure = (errorMsg) => ({
     errorMsg
 });
 
-export const addTodo = (todo) => (dispatch) => {
+export const addTodo = (text) => (dispatch) => {
     dispatch(addTodoRequest());
 
     return fetch(resources.TODOS_PATH, {
@@ -69,7 +70,7 @@ export const addTodo = (todo) => (dispatch) => {
             'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify({text: todo})
+        body: JSON.stringify({text: text})
     }).then(res => res.json().then(data => ({
         data: data,
         ok: res.ok
@@ -78,10 +79,52 @@ export const addTodo = (todo) => (dispatch) => {
             throw new Error(res.data.message)
         }
 
-        dispatch(addTodoSuccess(res.data));
+        return dispatch(addTodoSuccess(res.data));
     }).catch(err => {
         console.error('Cannot add todo: ', err);
-        dispatch(addTodoFailure(err.message));
 
+        return dispatch(addTodoFailure(err.message));
     });
+};
+
+/*
+ * Remove todo
+ */
+
+export const removeTodoRequest = () => ({
+    type: types.REMOVE_TODO_REQUEST,
+});
+
+export const removeTodoSuccess = (id) => ({
+    type: types.REMOVE_TODO_SUCCESS,
+    id
+});
+
+export const removeTodoFailure = (errorMsg) => ({
+    type: types.REMOVE_TODO_FAILURE,
+    errorMsg
+});
+
+export const removeTodo = (id) => (dispatch) => {
+    dispatch(removeTodoRequest(id));
+
+    return fetch(`${resources.TODOS_PATH}/${id}`, {
+        method: 'DELETE'
+    }).then(res => {
+        return res.json().then(data => ({
+            data: data,
+            ok: res.ok
+        }))
+    }).then(res => {
+        if (!res.ok) {
+            throw new Error(res.data.message);
+        }
+
+        return dispatch(removeTodoSuccess(id));
+    }).catch(err => {
+        console.error('Cannot remove todo: ', err);
+
+        return dispatch(removeTodoFailure(err.message));
+    });
+
 };

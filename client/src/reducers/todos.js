@@ -6,6 +6,8 @@ const todos = (state = [], action) => {
             return action.todos;
         case types.ADD_TODO_SUCCESS:
             return [...state, action.todo];
+        case types.REMOVE_TODO_SUCCESS:
+            return state.filter(item => item._id !== action.id);
         default:
             return state;
     }

@@ -58,3 +58,41 @@ describe('add todo', () => {
         expect(todos(state, action)).toEqual([...state, action.todo]);
     });
 });
+
+describe('remove todo', () => {
+    it('should remove existing todo', () => {
+        const todoToRemove = {
+            _id: 1,
+            text: 'bye'
+        };
+
+        const todoToPreserve = {
+            _id: 2,
+            text: 'test'
+        };
+
+        const state = [todoToPreserve, todoToRemove];
+        const action = actions.removeTodoSuccess(todoToRemove._id);
+
+        deepFreeze(state);
+        deepFreeze(action);
+
+        expect(todos(state, action)).toEqual([todoToPreserve]);
+    });
+
+    it('should not remove any todo that does not exist', () => {
+        const todoToRemoveId = 1;
+        const state = [{
+            _id: 2,
+            text: 'test'
+        }];
+
+        const action = actions.removeTodoSuccess(todoToRemoveId);
+
+        deepFreeze(state);
+        deepFreeze(action);
+
+        expect(todos(state, action)).toEqual(state);
+    });
+
+});
