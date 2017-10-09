@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 
 class RemoveTodo extends Component {
 
-    handleRemoveTodoClick = (todo) => (event) => {
+    handleRemoveTodoClick = (event) => {
         event.preventDefault();
-        this.props.removeTodo(todo._id);
-    }
+
+        const {todo, removeTodo} = this.props;
+        removeTodo(todo._id);
+    };
 
     render() {
-        return <input type="button" onClick={this.handleRemoveTodoClick(this.props.todo)} value="Remove"/>;
+        return <input type="button" onClick={this.handleRemoveTodoClick} value="Remove"/>;
     }
-
 }
 
 RemoveTodo.propTypes = {

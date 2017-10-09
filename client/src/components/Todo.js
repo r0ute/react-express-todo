@@ -1,21 +1,33 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import './Todo.css';
 
-export default class Todo extends Component {
+class Todo extends Component {
     handleClick = (event) => {
         event.preventDefault();
-        this.props.onTodoCompletion({
-            ...this.props.todo,
-            completed: !this.props.todo.completed
-        });
+
+        const {toggleTodo, todo} = this.props;
+        toggleTodo(todo._id, !todo.completed);
     };
 
     render() {
-        return (<span
-            onClick={this.handleClick}
-            className={classnames('Todo', {'Todo-completed': this.props.todo.completed})}>
-            {this.props.todo.text}
-            </span>);
+        const {todo} = this.props;
+
+        return (
+            <span
+                onClick={this.handleClick}
+                className={classnames('Todo', {'Todo-completed': todo.completed})}
+            >
+                {todo.text}
+            </span>
+        );
     }
+}
+
+Todo.propTypes = {
+    todo: PropTypes.object.isRequired,
+    toggleTodo: PropTypes.func.isRequired
 };
+
+export default Todo;

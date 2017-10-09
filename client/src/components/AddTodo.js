@@ -27,8 +27,14 @@ class AddTodo extends Component {
 
     render() {
         return (<form>
-            <input placeholder="Enter TODO..." ref={(item) => this.item = item} onKeyPress={this.handleInputTodo}/>
-            <input type="button" value="Add" onClick={this.handleAddTodoClick}/>
+            <input
+                placeholder="Enter TODO..."
+                ref={(item) => this.item = item}
+                onKeyPress={this.handleInputTodo}/>
+            <input
+                type="button"
+                value="Add"
+                onClick={this.handleAddTodoClick}/>
         </form>);
     }
 };
