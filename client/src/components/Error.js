@@ -7,7 +7,6 @@ const Error = ({errorMsg}) => (
     <span className={classnames('Error-message', {'Error-hidden': !errorMsg})}>{errorMsg}</span>
 );
 
-
 Error.propTypes = {
     errorMsg: PropTypes.string
 };

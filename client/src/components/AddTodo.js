@@ -37,7 +37,7 @@ class AddTodo extends Component {
                 onClick={this.handleAddTodoClick}/>
         </form>);
     }
-};
+}
 
 AddTodo.propType = {
     addTodo: PropTypes.func.isRequired
