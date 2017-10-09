@@ -48,19 +48,16 @@ export const fetchTodos = () => (dispatch) => {
  */
 
 export const addTodoRequest = () => ({
-    type: types.ADD_TODO_REQUEST,
-    fetching: true
+    type: types.ADD_TODO_REQUEST
 });
 
 export const addTodoSuccess = (todo) => ({
     type: types.ADD_TODO_SUCCESS,
-    fetching: false,
     todo
 });
 
 export const addTodoFailure = (errorMsg) => ({
     type: types.ADD_TODO_FAILURE,
-    fetching: false,
     errorMsg
 });
 
