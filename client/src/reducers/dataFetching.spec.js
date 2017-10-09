@@ -10,7 +10,7 @@ describe('fetch todos', () => {
         deepFreeze(state);
         deepFreeze(action);
 
-        expect(dataFetching(state, action)).toEqual(action.fetching);
+        expect(dataFetching(state, action)).toEqual(true);
     });
 
     it('should not be fetching data', () => {
@@ -20,6 +20,6 @@ describe('fetch todos', () => {
         deepFreeze(state);
         deepFreeze(action);
 
-        expect(dataFetching(state, action)).toEqual(action.fetching);
+        expect(dataFetching(state, action)).toEqual(false);
     });
 });

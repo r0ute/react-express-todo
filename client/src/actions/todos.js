@@ -7,19 +7,16 @@ import * as types from './types';
  */
 
 export const fetchTodosRequest = () => ({
-    type: types.FETCH_TODOS_REQUEST,
-    fetching: true
+    type: types.FETCH_TODOS_REQUEST
 });
 
 export const fetchTodosSuccess = (todos) => ({
     type: types.FETCH_TODOS_SUCCESS,
-    fetching: false,
     todos
 });
 
 export const fetchTodosFailure = (errorMsg) => ({
     type: types.FETCH_TODOS_FAILURE,
-    fetching: false,
     errorMsg
 });
 
