@@ -1,0 +1,11 @@
+{
+  "db": {
+    "uri": "mongodb://localhost/todoapp"
+  },
+  "auth": {
+    "google": {
+      "clientId": "id",
+      "clientSecret": "secret"
+    }
+  }
+}

@@ -22,7 +22,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 passport.use(googleStrategy);
+
+passport.serializeUser(function (user, done) {
+    done(null, user._id);
+});
+passport.deserializeUser(function (user, done) {
+    done(null, user._id);
+});
+
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api/todos', todos);
 app.use('/auth', auth);
