@@ -4,7 +4,7 @@ try {
     config = require('./settings');
 } catch (e) {
     console.warn("Cannot load settings file. Using defaults.");
-    config = require('./settings.example')
+    config = require('./default')
 }
 
 module.exports = config;
