@@ -6,6 +6,10 @@
     "google": {
       "clientId": "id",
       "clientSecret": "secret"
+    },
+    "facebook": {
+      "clientId": "id",
+      "clientSecret": "secret"
     }
   }
 }

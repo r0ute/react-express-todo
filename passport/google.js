@@ -7,7 +7,6 @@ module.exports = new GoogleStrategy({
         clientSecret: config.auth.google.clientSecret,
         callbackURL: '/auth/google/callback'
     }, function (accessToken, refreshToken, profile, done) {
-        const provider = 'google';
         console.log('Google profile', profile);
 
         User.findOneAndUpdate({

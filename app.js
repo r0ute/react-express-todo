@@ -8,6 +8,7 @@ var passport = require('passport');
 
 var config = require('./config/loader');
 var googleStrategy = require('./passport/google');
+var facebookStrategy = require('./passport/facebook');
 var api = require('./routes/api');
 var auth = require('./routes/auth');
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 passport.use(googleStrategy);
+passport.use(facebookStrategy);
 
 passport.serializeUser(function (user, done) {
     done(null, user._id);
