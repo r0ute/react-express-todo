@@ -4,9 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 
+var config = require('./config/loader');
+var googleStrategy = require('./passport/google');
 var todos = require('./routes/todos');
-var config = require('./config');
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -18,6 +21,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+passport.use(googleStrategy);
+app.use(passport.initialize());
+
 app.use('/api/todos', todos);
+app.use('/auth', auth);
 
 module.exports = app;

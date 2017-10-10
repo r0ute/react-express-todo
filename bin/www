@@ -6,7 +6,7 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var app = require('../app');
-var config = require('../config');
+var config = require('../config/loader');
 var debug = require('debug')('todo:server');
 var http = require('http');
 
