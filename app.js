@@ -8,7 +8,7 @@ var passport = require('passport');
 
 var config = require('./config/loader');
 var googleStrategy = require('./passport/google');
-var todos = require('./routes/todos');
+var api = require('./routes/api');
 var auth = require('./routes/auth');
 
 var app = express();
@@ -33,7 +33,7 @@ passport.deserializeUser(function (user, done) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/todos', todos);
+app.use('/api', api);
 app.use('/auth', auth);
 
 module.exports = app;
